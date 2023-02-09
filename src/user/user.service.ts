@@ -44,4 +44,26 @@ export class UserService {
   async getUser(email: string): Promise<User> {
     return await this.userRepository.findOneBy({ email });
   }
+
+  async updateRefreshToken(
+    user_id: User['id'], 
+    refresh_token: User['refresh_token']
+  ) {
+    try {
+      if(refresh_token) {
+        const salt = await bcypt.genSalt(10);
+        const hashedRefreshToken = await bcypt.hash(refresh_token, salt);
+        await this.userRepository.update(user_id, {
+          refresh_token: hashedRefreshToken,
+        });
+      }else {
+        await this.userRepository.update(user_id, {
+          refresh_token: null
+        });
+      }
+      return true;
+    }catch(e) {
+      return false;
+    }
+  }
 }

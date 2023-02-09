@@ -16,6 +16,10 @@ export class User {
   @Exclude()
   password: string;
 
+  @Column({ default: null })
+  @Exclude()
+  refresh_token!: string;
+
   @CreateDateColumn()
   created_at: Date;
 
