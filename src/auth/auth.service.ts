@@ -65,7 +65,9 @@ export class AuthService {
 
   async refresh(refresh_token: string): Promise<{ accessToken: string }> {
     try {
-      const { email } = await this.jwtService.verifyAsync(refresh_token);
+      const {email} = await this.jwtService.verifyAsync(refresh_token, {
+        secret: this.configService.get('JWT_REFRESH_SECRET')
+      });
       const user = await this.userService.getUser(email);
 
       if(!user) {
@@ -81,6 +83,7 @@ export class AuthService {
       return accessToken;
 
     }catch(e) {
+      console.log(e);
       throw new UnauthorizedException();
     }
   }
