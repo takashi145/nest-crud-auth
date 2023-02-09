@@ -17,7 +17,7 @@ export class PostsService {
     return await this.postRepository.find();
   }
 
-  async findById(id: string): Promise<Post> {
+  async findById(id: number): Promise<Post> {
     const post =  await this.postRepository.findOneBy({ id });
     if(!post) {
       throw new NotFoundException();
@@ -29,15 +29,13 @@ export class PostsService {
     const { title, description } = createPostDto;
     const post = this.postRepository.create({
       title,
-      description,
-      created_at: new Date().toString(),
-      updated_at: new Date().toString(),
+      description
     });
     await this.postRepository.save(post);
     return post;
   }
 
-  async update(updatePostDto: UpdatePostDto, id: string) {
+  async update(updatePostDto: UpdatePostDto, id: number) {
     const { title, description } = updatePostDto;
     const post = await this.findById(id);
     post.title = title;
@@ -46,7 +44,7 @@ export class PostsService {
     return post;
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: number): Promise<void> {
     await this.postRepository.delete({ id });
   }
 }

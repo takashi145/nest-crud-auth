@@ -1,15 +1,20 @@
+import { Exclude } from "class-transformer";
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
-export class Post {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  title: string;
+  username: string;
+
+  @Column({ unique: true })
+  email: string;
 
   @Column()
-  description: string;
+  @Exclude()
+  password: string;
 
   @CreateDateColumn()
   created_at: Date;
