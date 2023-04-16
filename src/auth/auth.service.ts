@@ -83,7 +83,6 @@ export class AuthService {
       return accessToken;
 
     }catch(e) {
-      console.log(e);
       throw new UnauthorizedException();
     }
   }
